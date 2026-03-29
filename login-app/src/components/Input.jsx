@@ -1,42 +1,21 @@
 import React, { useState } from 'react';
-import './Input.css';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
+import './Input.css';
 
-const Input = ({ 
-  label, 
-  type = 'text', 
-  placeholder, 
-  id, 
-  name, 
-  value, 
-  onChange, 
-  error, 
-  required = false, 
-  icon: Icon,
-  rightLink,
-  ...props 
-}) => {
+const Input = ({ label, type = 'text', placeholder, id, name, value, onChange, required, rightLink, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === 'password';
   const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
-
-  const togglePassword = () => setShowPassword(!showPassword);
 
   return (
     <div className="input-field">
       <div className="input-labels">
         {label && <label htmlFor={id} className="label">{label}</label>}
-        {rightLink && (
-          <a href={rightLink.href} className="right-link">
-            {rightLink.text}
-          </a>
-        )}
+        {rightLink && <a href={rightLink.href} className="right-link">{rightLink.text}</a>}
       </div>
-      
-      <div className={`input-container ${error ? 'input-error' : ''}`}>
-        {Icon && <span className="input-icon"><Icon /></span>}
+      <div className="input-container">
         <input
-          className={`input ${Icon ? 'with-icon' : ''} ${isPassword ? 'with-eye' : ''}`}
+          className={`input ${isPassword ? 'with-eye' : ''}`}
           id={id}
           type={inputType}
           placeholder={placeholder}
@@ -47,17 +26,16 @@ const Input = ({
           {...props}
         />
         {isPassword && (
-          <button 
-            type="button" 
-            className="eye-toggle" 
-            onClick={togglePassword}
-            aria-label={showPassword ? "Hide password" : "Show password"}
+          <button
+            type="button"
+            className="eye-toggle"
+            onClick={() => setShowPassword(!showPassword)}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >
-            {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+            {showPassword ? <IoEyeOffOutline size={18} /> : <IoEyeOutline size={18} />}
           </button>
         )}
       </div>
-      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };
