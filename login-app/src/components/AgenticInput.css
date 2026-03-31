@@ -1,0 +1,77 @@
+/* ==========================================================================
+   AGENTIC FLOATING INPUT
+   ========================================================================== */
+.agentic-input-wrapper {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 100;
+  width: 100%;
+  max-width: 600px;
+}
+
+.agentic-input-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 99px;
+  padding: 8px 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.input-prefix {
+  color: var(--accent-blue, #3b82f6);
+  margin-right: 12px;
+}
+
+.ai-input-field {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  color: var(--text-main, #0f172a);
+  outline: none;
+}
+
+.input-suffix {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kbd-shortcut {
+  font-size: 0.75rem;
+  color: var(--text-muted, #64748b);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-main, #f8fafc);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #e2e8f0);
+}
+
+.send-btn {
+  background: var(--accent-blue, #3b82f6);
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ai-disclaimer {
+  font-size: 0.75rem;
+  color: var(--text-muted, #64748b);
+}

@@ -1,0 +1,242 @@
+/* INBOX VIEW */
+.inbox-view-container {
+  display: flex;
+  height: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ── Left List Pane ── */
+.inbox-list-pane {
+  width: 340px;
+  min-width: 340px;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-main);
+}
+
+.inbox-list-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inbox-list-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.inbox-badge {
+  background: var(--accent-blue);
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.inbox-scroll-area {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.inbox-item {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.inbox-item:hover {
+  background: rgba(59, 130, 246, 0.04);
+}
+
+.inbox-item.active {
+  background: rgba(59, 130, 246, 0.08);
+  border-left: 3px solid var(--accent-blue);
+}
+
+.inbox-item.unread .msg-subject {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.inbox-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+/* sender name in list row */
+.sender-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-badge-icon {
+  color: var(--accent-blue);
+  font-size: 0.85rem;
+}
+
+.msg-time {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.msg-subject {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.msg-preview {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Right Content Pane ── */
+.inbox-content-pane {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Message detail header */
+.msg-detail-header {
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.msg-detail-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.msg-detail-title-row h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.msg-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+/* icon-btn-small (shared) */
+.icon-btn-small {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.icon-btn-small:hover {
+  background: var(--border-color);
+  color: var(--text-main);
+}
+
+/* Sender info row */
+.msg-sender-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sender-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.sender-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sender-name-large {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.sender-email {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Message body */
+.msg-detail-body {
+  padding: 24px 28px;
+  flex-grow: 1;
+  overflow-y: auto;
+  line-height: 1.7;
+}
+
+.msg-detail-body p {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+/* Empty state */
+.empty-inbox-state {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 40px;
+}
+
+.empty-inbox-state h3 {
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.empty-inbox-state p {
+  font-size: 0.9rem;
+}

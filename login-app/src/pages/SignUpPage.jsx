@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { SiSlack } from 'react-icons/si';
 import { FiArrowRight } from 'react-icons/fi';
@@ -12,9 +12,34 @@ import '../App.css';
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', confirm: '' });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // if password and confirm password match
+    if (formData.password !== formData.confirm) {
+      alert("Passwords do not match! Please check and try again.");
+      return;
+    }
+
+    // Store the user credentials in localStorage
+    const userData = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password, // In a real app, never store plain-text passwords
+    };
+    localStorage.setItem('registeredUser', JSON.stringify(userData));
+
+    // Set authentication flag
+    localStorage.setItem('isAuthenticated', 'true');
+
+
+    navigate('/dashboard');
   };
 
   return (
@@ -73,14 +98,47 @@ const SignUpPage = () => {
             <Button variant="outline" icon={() => <SiSlack color="#E01E5A" />}>Sign up with Slack</Button>
           </div>
           <div className="divider"><span className="divider-text">OR WITH EMAIL</span></div>
-          <form className="register-form">
-            <Input label="Full Name" name="name" placeholder="John Doe" value={formData.name} onChange={handleChange} required />
-            <Input label="Email" name="email" type="email" placeholder="name@company.com" value={formData.email} onChange={handleChange} required />
-            <Input label="Password" name="password" type="password" placeholder="••••••••" value={formData.password} onChange={handleChange} required />
+
+          <form className="register-form" onSubmit={handleSubmit}>
+            <Input
+              label="Full Name"
+              name="name"
+              placeholder="John Doe"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="name@company.com"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Password"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
 
             <PasswordStrength password={formData.password} />
 
-            <Input label="Confirm Password" name="confirm" type="password" placeholder="••••••••" value={formData.confirm} onChange={handleChange} required />
+            <Input
+              label="Confirm Password"
+              name="confirm"
+              type="password"
+              placeholder="••••••••"
+              value={formData.confirm}
+              onChange={handleChange}
+              required
+            />
+
             <div className="checkbox-row">
               <label className="checkbox-container">
                 <input type="checkbox" required />
@@ -92,6 +150,7 @@ const SignUpPage = () => {
               <div className="btn-inner">Create Account <FiArrowRight className="arrow" /></div>
             </Button>
           </form>
+
           <p className="footer-text">
             Already have an account? <Link to="/" className="login-link">Sign In</Link>
           </p>

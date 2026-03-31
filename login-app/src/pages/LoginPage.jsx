@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { SiSlack } from 'react-icons/si';
 import { FiArrowRight } from 'react-icons/fi';
@@ -11,14 +11,36 @@ import '../App.css';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // 1. Fetch the stored user data from the "Sign Up" phase
+    const storedUser = JSON.parse(localStorage.getItem('registeredUser'));
+
+    // 2. Verify if the credentials match
+    if (
+      storedUser &&
+      storedUser.email === formData.email &&
+      storedUser.password === formData.password
+    ) {
+      // Success: Set authentication flag and redirect
+      localStorage.setItem('isAuthenticated', 'true');
+      navigate('/dashboard');
+    } else {
+      // Failure: Provide feedback
+      alert('Invalid email or password. Please try again or create an account.');
+    }
+  };
+
   return (
     <div className="login-page">
-      {/*Left section*/}
+      {/* Left section */}
       <div className="side-panel">
         <div className="panel-content">
           <div className="logo-container">
@@ -72,9 +94,28 @@ const LoginPage = () => {
             <Button variant="outline" icon={() => <SiSlack color="#E01E5A" />}>Sign in with Slack</Button>
           </div>
           <div className="divider"><span className="divider-text">OR WITH EMAIL</span></div>
-          <form className="register-form">
-            <Input label="Email" name="email" type="email" placeholder="name@company.com" value={formData.email} onChange={handleChange} required />
-            <Input label="Password" name="password" type="password" placeholder="••••••••" value={formData.password} onChange={handleChange} rightLink={{ text: 'Forgot password?', href: '#' }} required />
+
+          {/* Added onSubmit handler here */}
+          <form className="register-form" onSubmit={handleSubmit}>
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="name@company.com"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Password"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              value={formData.password}
+              onChange={handleChange}
+              rightLink={{ text: 'Forgot password?', href: '#' }}
+              required
+            />
             <div className="checkbox-row">
               <label className="checkbox-container">
                 <input type="checkbox" />
@@ -86,6 +127,7 @@ const LoginPage = () => {
               <div className="btn-inner">Sign In <FiArrowRight className="arrow" /></div>
             </Button>
           </form>
+
           <p className="footer-text">
             Don't have an account? <Link to="/signup" className="login-link">Start for free</Link>
           </p>
