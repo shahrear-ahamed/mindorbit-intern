@@ -4,11 +4,20 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import DashboardPage from './pages/DashboardPage';
 
-// This component acts as a guard. 
-// If isAuthenticated is true, it renders the page. If false, it kicks them back to Login.
+// This component acts as a guard.
+// If activeSession exists and is not expired, it renders the page. Otherwise redirects to Login.
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('isAuthenticated');
-  return isAuthenticated ? children : <Navigate to="/" />;
+  let session;
+  try {
+    session = JSON.parse(localStorage.getItem('activeSession'));
+  } catch {
+    session = null;
+  }
+  if (!session || session.expiresAt < Date.now()) {
+    localStorage.removeItem('activeSession');
+    return <Navigate to="/" />;
+  }
+  return children;
 };
 
 const App = () => {

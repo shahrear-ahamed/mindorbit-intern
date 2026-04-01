@@ -25,13 +25,25 @@ const SignUpPage = () => {
   const password = watch('password', '');
 
   const onSubmit = (data) => {
-    const userData = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-    };
-    localStorage.setItem('registeredUser', JSON.stringify(userData));
-    localStorage.setItem('isAuthenticated', 'true');
+    let users;
+    try {
+      users = JSON.parse(localStorage.getItem('users') || '[]');
+    } catch {
+      users = [];
+    }
+    const emailExists = users.some(u => u.email === data.email);
+
+    if (emailExists) {
+      alert('An account with this email already exists.');
+      return;
+    }
+
+    const userData = { name: data.name, email: data.email, password: data.password };
+    const updatedUsers = [...users, userData];
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+
+    const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+    localStorage.setItem('activeSession', JSON.stringify({ email: data.email, expiresAt }));
     navigate('/dashboard');
   };
 

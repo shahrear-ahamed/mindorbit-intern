@@ -19,8 +19,10 @@ const ProfileCard = ({ close, onSettingsClick }) => {
 
     // Logout Function
     const handleLogout = () => {
-        localStorage.removeItem('isAuthenticated'); // Clear auth state
-        navigate('/'); // Send user back to Login Page
+        localStorage.removeItem('activeSession');
+        localStorage.removeItem('registeredUser');
+        localStorage.removeItem('isAuthenticated');
+        navigate('/');
     };
 
     return (

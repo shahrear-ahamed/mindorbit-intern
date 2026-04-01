@@ -19,16 +19,33 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: zodResolver(loginSchema) });
+  const [keepSignedIn, setKeepSignedIn] = React.useState(false);
 
   const onSubmit = (data) => {
-    const storedUser = JSON.parse(localStorage.getItem('registeredUser'));
-
-    if (storedUser && storedUser.email === data.email && storedUser.password === data.password) {
-      localStorage.setItem('isAuthenticated', 'true');
-      navigate('/dashboard');
-    } else {
-      alert('Invalid email or password. Please try again or create an account.');
+    let users;
+    try {
+      users = JSON.parse(localStorage.getItem('users') || '[]');
+    } catch {
+      users = [];
     }
+    const user = users.find(u => u.email === data.email);
+
+    if (!user) {
+      alert('No account found with this email.');
+      return;
+    }
+
+    if (user.password !== data.password) {
+      alert('Incorrect password. Please try again.');
+      return;
+    }
+
+    const expiresAt = keepSignedIn
+      ? Date.now() + 30 * 24 * 60 * 60 * 1000
+      : Date.now() + 24 * 60 * 60 * 1000;
+
+    localStorage.setItem('activeSession', JSON.stringify({ email: user.email, expiresAt }));
+    navigate('/dashboard');
   };
 
   return (
@@ -106,7 +123,7 @@ const LoginPage = () => {
             />
             <div className="checkbox-row">
               <label className="checkbox-container">
-                <input type="checkbox" />
+                <input type="checkbox" checked={keepSignedIn} onChange={(e) => setKeepSignedIn(e.target.checked)} />
                 <span className="checkmark"></span>
                 Keep me signed in for 30 days
               </label>

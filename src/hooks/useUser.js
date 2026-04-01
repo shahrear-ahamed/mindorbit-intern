@@ -1,11 +1,27 @@
 import { useState } from 'react';
 
 const getUser = () => {
-  const stored = JSON.parse(localStorage.getItem('registeredUser'));
-  return {
-    name: stored?.name || 'User',
-    email: stored?.email || 'user@example.com',
-  };
+  let session;
+  try {
+    session = JSON.parse(localStorage.getItem('activeSession'));
+  } catch {
+    session = null;
+  }
+  let users;
+  try {
+    users = JSON.parse(localStorage.getItem('users') || '[]');
+  } catch {
+    users = [];
+  }
+
+  if (session) {
+    const user = users.find(u => u.email === session.email);
+    if (user) {
+      return { name: user.name, email: user.email };
+    }
+  }
+
+  return { name: 'User', email: 'user@example.com' };
 };
 
 export const useUser = () => {
