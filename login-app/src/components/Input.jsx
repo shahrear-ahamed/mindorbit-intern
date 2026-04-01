@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 import './Input.css';
 
-const Input = ({ label, type = 'text', placeholder, id, name, value, onChange, required, rightLink, ...props }) => {
+const Input = ({ label, type = 'text', placeholder, id, name, value, onChange, required, rightLink, error, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === 'password';
   const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
+  const errorClass = error ? 'input-error' : '';
 
   return (
-    <div className="input-field">
+    <div className={`input-field ${errorClass}`.trim()}>
       <div className="input-labels">
         {label && <label htmlFor={id} className="label">{label}</label>}
         {rightLink && <a href={rightLink.href} className="right-link">{rightLink.text}</a>}
@@ -36,6 +37,7 @@ const Input = ({ label, type = 'text', placeholder, id, name, value, onChange, r
           </button>
         )}
       </div>
+      {error && <span className="error-message">{error.message}</span>}
     </div>
   );
 };

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FcGoogle } from 'react-icons/fc';
 import { SiSlack } from 'react-icons/si';
 import { FiArrowRight } from 'react-icons/fi';
@@ -7,33 +9,24 @@ import { FaRocket } from 'react-icons/fa';
 import { HiOutlineMap, HiOutlineSparkles, HiOutlineUsers } from 'react-icons/hi';
 import Button from '../components/Button';
 import Input from '../components/Input';
+import { loginSchema } from '../schemas/authSchemas';
 import '../App.css';
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(loginSchema) });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // 1. Fetch the stored user data from the "Sign Up" phase
+  const onSubmit = (data) => {
     const storedUser = JSON.parse(localStorage.getItem('registeredUser'));
 
-    // 2. Verify if the credentials match
-    if (
-      storedUser &&
-      storedUser.email === formData.email &&
-      storedUser.password === formData.password
-    ) {
-      // Success: Set authentication flag and redirect
+    if (storedUser && storedUser.email === data.email && storedUser.password === data.password) {
       localStorage.setItem('isAuthenticated', 'true');
       navigate('/dashboard');
     } else {
-      // Failure: Provide feedback
       alert('Invalid email or password. Please try again or create an account.');
     }
   };
@@ -95,26 +88,21 @@ const LoginPage = () => {
           </div>
           <div className="divider"><span className="divider-text">OR WITH EMAIL</span></div>
 
-          {/* Added onSubmit handler here */}
-          <form className="register-form" onSubmit={handleSubmit}>
+          <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
             <Input
               label="Email"
-              name="email"
               type="email"
               placeholder="name@company.com"
-              value={formData.email}
-              onChange={handleChange}
-              required
+              error={errors.email}
+              {...register('email')}
             />
             <Input
               label="Password"
-              name="password"
               type="password"
               placeholder="••••••••"
-              value={formData.password}
-              onChange={handleChange}
+              error={errors.password}
               rightLink={{ text: 'Forgot password?', href: '#' }}
-              required
+              {...register('password')}
             />
             <div className="checkbox-row">
               <label className="checkbox-container">

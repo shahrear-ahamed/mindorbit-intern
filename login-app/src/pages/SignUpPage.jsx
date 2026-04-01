@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FcGoogle } from 'react-icons/fc';
 import { SiSlack } from 'react-icons/si';
 import { FiArrowRight } from 'react-icons/fi';
@@ -8,37 +10,28 @@ import { HiOutlineMap, HiOutlineSparkles, HiOutlineUsers } from 'react-icons/hi'
 import Button from '../components/Button';
 import Input from '../components/Input';
 import PasswordStrength from '../components/PasswordStrength';
+import { signUpSchema } from '../schemas/authSchemas';
 import '../App.css';
 
 const SignUpPage = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', confirm: '' });
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(signUpSchema) });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const password = watch('password', '');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // if password and confirm password match
-    if (formData.password !== formData.confirm) {
-      alert("Passwords do not match! Please check and try again.");
-      return;
-    }
-
-    // Store the user credentials in localStorage
+  const onSubmit = (data) => {
     const userData = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password, // In a real app, never store plain-text passwords
+      name: data.name,
+      email: data.email,
+      password: data.password,
     };
     localStorage.setItem('registeredUser', JSON.stringify(userData));
-
-    // Set authentication flag
     localStorage.setItem('isAuthenticated', 'true');
-
-
     navigate('/dashboard');
   };
 
@@ -99,44 +92,36 @@ const SignUpPage = () => {
           </div>
           <div className="divider"><span className="divider-text">OR WITH EMAIL</span></div>
 
-          <form className="register-form" onSubmit={handleSubmit}>
+          <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
             <Input
               label="Full Name"
-              name="name"
               placeholder="John Doe"
-              value={formData.name}
-              onChange={handleChange}
-              required
+              error={errors.name}
+              {...register('name')}
             />
             <Input
               label="Email"
-              name="email"
               type="email"
               placeholder="name@company.com"
-              value={formData.email}
-              onChange={handleChange}
-              required
+              error={errors.email}
+              {...register('email')}
             />
             <Input
               label="Password"
-              name="password"
               type="password"
               placeholder="••••••••"
-              value={formData.password}
-              onChange={handleChange}
-              required
+              error={errors.password}
+              {...register('password')}
             />
 
-            <PasswordStrength password={formData.password} />
+            <PasswordStrength password={password} />
 
             <Input
               label="Confirm Password"
-              name="confirm"
               type="password"
               placeholder="••••••••"
-              value={formData.confirm}
-              onChange={handleChange}
-              required
+              error={errors.confirm}
+              {...register('confirm')}
             />
 
             <div className="checkbox-row">
