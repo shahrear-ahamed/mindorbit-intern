@@ -10,9 +10,11 @@ import AgenticInput from '../components/AgenticInput';
 import UpgradeModal from '../components/UpgradeModal';
 import SettingsModal from '../components/SettingsModal';
 import { useOrbitTheme } from '../hooks/useOrbitTheme';
+import { useUser } from '../hooks/useUser';
 import '../styles/DashboardPage.css';
 
 const DashboardPage = () => {
+    const { name: userName } = useUser();
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [activeView, setActiveView] = useState('Dashboard');
     
@@ -25,7 +27,7 @@ const DashboardPage = () => {
         {
             id: 1,
             role: 'ai',
-            content: 'Hello Alex! I am synced with your workspace. What would you like to explore today?',
+            content: `Hello ${userName}! I am synced with your workspace. What would you like to explore today?`,
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
     ]);
@@ -83,7 +85,7 @@ const DashboardPage = () => {
                 <section className="content-viewport">
                     {/* View Router Logic */}
                     {activeView === 'Dashboard' ? (
-                        <DashboardHome greeting={greeting} userName="Alex" />
+                        <DashboardHome greeting={greeting} userName={userName} />
                     ) : activeView === 'Chat' ? (
                         <AIChatView chatHistory={chatHistory} isTyping={isAITyping} />
                     ) : activeView === 'Roadmap' ? (

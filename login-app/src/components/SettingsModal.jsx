@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { FiX, FiUser, FiBell, FiShield, FiMonitor } from 'react-icons/fi';
+import { useUser } from '../hooks/useUser';
 import '../styles/DashboardPage.css';
 import './SettingsModal.css';
 
 const SettingsModal = ({ isOpen, onClose }) => {
     const [activeTab, setActiveTab] = useState('Account');
+    const { name, email } = useUser();
 
     if (!isOpen) return null;
 
@@ -42,11 +44,11 @@ const SettingsModal = ({ isOpen, onClose }) => {
                                 
                                 <div className="settings-form-group">
                                     <label>Full Name</label>
-                                    <input type="text" defaultValue="Alex Rivera" className="settings-input" />
+                                    <input type="text" defaultValue={name} className="settings-input" />
                                 </div>
                                 <div className="settings-form-group">
                                     <label>Email Address</label>
-                                    <input type="email" defaultValue="alex@mindorbit.io" className="settings-input" />
+                                    <input type="email" defaultValue={email} className="settings-input" />
                                 </div>
                                 <button className="settings-save-btn">Save Changes</button>
                             </div>

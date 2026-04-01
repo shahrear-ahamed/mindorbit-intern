@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { FiBell, FiChevronDown, FiChevronRight, FiUsers } from 'react-icons/fi';
 import ProfileCard from './ProfileCard';
+import { useUser } from '../hooks/useUser';
 import '../styles/DashboardPage.css';
 
 const DashboardHeader = ({ toggleSidebar, currentView, onSettingsClick }) => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const { name } = useUser();
 
     return (
         <header className="dashboard-header">
@@ -38,7 +40,7 @@ const DashboardHeader = ({ toggleSidebar, currentView, onSettingsClick }) => {
                             alt="Profile" 
                             className="profile-avatar"
                         />
-                        <span className="profile-name">Alex Reed</span>
+                        <span className="profile-name">{name}</span>
                         <FiChevronDown size={16} />
                     </button>
                     {isProfileOpen && (

@@ -2,11 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiUser, FiSettings, FiSliders, FiCommand, FiLogOut, FiSun, FiMoon, FiMonitor } from 'react-icons/fi';
 import { useOrbitTheme } from '../hooks/useOrbitTheme';
+import { useUser } from '../hooks/useUser';
 import '../styles/DashboardPage.css';
 import './ProfileCard.css';
 
 const ProfileCard = ({ close, onSettingsClick }) => {
     const { theme, setTheme } = useOrbitTheme(); 
+    const { name, email } = useUser();
     const navigate = useNavigate(); // <-- Initialize hook
 
     // Helper function to handle opening settings and closing the dropdown
@@ -25,12 +27,12 @@ const ProfileCard = ({ close, onSettingsClick }) => {
         <div className="profile-card-dropdown">
             <div className="profile-header">
                 <div className="avatar-large-wrapper">
-                    <img src="https://i.pravatar.cc/150?u=alexrivera" alt="Alex" className="avatar-large" />
+                    <img src={`https://i.pravatar.cc/150?u=${name}`} alt={name} className="avatar-large" />
                     <span className="status-indicator online" />
                 </div>
                 <div className="header-text">
-                    <p className="full-name">Alex Rivera</p>
-                    <p className="user-email">alex@mindorbit.io</p>
+                    <p className="full-name">{name}</p>
+                    <p className="user-email">{email}</p>
                 </div>
             </div>
 

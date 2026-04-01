@@ -11,7 +11,7 @@ const DashboardHome = ({ greeting, userName }) => {
       {/* ── Hero ── */}
       <header className="home-hero">
         <h1 className="greeting-text">{greeting}, {userName}</h1>
-        <p className="date-text">Today is Monday, October 24, 2023</p>
+        <p className="date-text">Today is {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
       </header>
 
       {/* ── Metric Boxes ── */}
