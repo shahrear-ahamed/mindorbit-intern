@@ -1,0 +1,259 @@
+/* ==========================================================================
+   TODAY VIEW
+   ========================================================================== */
+
+/* Import is handled via DashboardPage.css for shared tokens */
+
+.today-view-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 6rem;
+}
+
+/* ── View Header ── */
+.today-view-container .view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.today-view-container .view-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.today-view-container .view-header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* ── Metrics Grid (4-col) ── */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 1200px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.metric-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.metric-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.metric-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.metric-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+}
+
+.metric-icon-wrapper.bg-blue {
+    background: #3b82f6;
+}
+
+.metric-icon-wrapper.bg-purple {
+    background: #8b5cf6;
+}
+
+.metric-icon-wrapper.bg-green {
+    background: #10b981;
+}
+
+.metric-icon-wrapper.bg-orange {
+    background: #f59e0b;
+}
+
+.metric-card-body {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1;
+}
+
+.metric-trend {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.metric-trend.positive {
+    color: #10b981;
+}
+
+/* ── Content Split ── */
+.today-content-split {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .today-content-split {
+        grid-template-columns: 1fr;
+    }
+}
+
+.panel-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.panel-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+/* ── Mock Bar Chart ── */
+.mock-chart-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 160px;
+    padding-top: 8px;
+}
+
+.chart-bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.chart-bar {
+    width: 100%;
+    background: var(--border-color);
+    border-radius: 4px 4px 0 0;
+    transition: background 0.2s;
+}
+
+[data-theme='dark'] .chart-bar {
+    background: #334155;
+}
+
+.chart-bar-group span {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* ── Daily Agenda ── */
+.agenda-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.agenda-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.agenda-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.agenda-time {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    min-width: 72px;
+    padding-top: 2px;
+}
+
+.agenda-details h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.agenda-details p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* task-count badge */
+.task-count {
+    background: var(--bg-main);
+    color: var(--text-muted);
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 1px solid var(--border-color);
+}
+
+/* icon-btn-small shared */
+.icon-btn-small {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.icon-btn-small:hover {
+    background: var(--border-color);
+    color: var(--text-main);
+}
